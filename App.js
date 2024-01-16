@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 import { fetchVideoData } from "./util/videoContentLoader";
+import ClipList from "./components/ClipList";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,19 +34,27 @@ export default function App() {
     getData();
   }, [fontsLoaded]);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          {videoData ? videoData.video.title : "Loading Title"}
-        </Text>
-        <Text style={styles.description}>
-          {videoData ? videoData.video.description : "Loading Description"}
-        </Text>
-      </View>
+  function onClipSelected(url) {}
 
+  return (
+    <>
       <StatusBar style='auto' />
-    </View>
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>
+            {videoData ? videoData.video.title : "Loading Title"}
+          </Text>
+          <Text style={styles.description}>
+            {videoData ? videoData.video.description : "Loading Description"}
+          </Text>
+        </View>
+
+        <ClipList
+          clips={videoData && videoData.videoClips}
+          onSelect={onClipSelected}
+        />
+      </View>
+    </>
   );
 }
 
@@ -60,6 +69,7 @@ const styles = StyleSheet.create({
     padding: 8,
     justifyContent: "center",
     alignItems: "flex-start",
+    alignSelf: "flex-start",
     backgroundColor: "#000000",
   },
   title: {

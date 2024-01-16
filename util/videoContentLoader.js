@@ -36,5 +36,7 @@ export async function fetchVideoData() {
     );
   }
 
+  console.log(videoData);
+
   return videoData;
 }
