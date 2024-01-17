@@ -18,9 +18,8 @@ export default function App() {
     "Inter-Bold": require("./assets/fonts/Inter-Bold.otf"),
   });
 
-  const [isLoading, setIsLoading] = useState(true);
   const [videoData, setVideoData] = useState();
-  const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
+  const [currentClipData, setcurrentClipData] = useState(null);
 
   useEffect(() => {
     async function getData() {
@@ -29,15 +28,14 @@ export default function App() {
 
       if (fontsLoaded) {
         await SplashScreen.hideAsync();
-        setIsLoading(false);
       }
     }
 
     getData();
   }, [fontsLoaded]);
 
-  function onClipSelected(url) {
-    setCurrentVideoUrl(url);
+  function onClipSelected(clip) {
+    setcurrentClipData(clip);
   }
 
   return (
@@ -62,7 +60,7 @@ export default function App() {
           </View>
 
           <View style={styles.videoContainer}>
-            <Player videoUrl={currentVideoUrl} />
+            <Player clip={currentClipData} />
           </View>
         </View>
       </View>

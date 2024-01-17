@@ -5,7 +5,7 @@ function ClipItem({ clip, onSelect }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]}
-      onPress={onSelect.bind(this, clip.videoUrl)}
+      onPress={onSelect.bind(this, clip)}
     >
       <View style={styles.metaContainer}>
         <Text style={styles.title}>{clip.title}</Text>
