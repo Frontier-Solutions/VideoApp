@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { fetchVideoData } from "./util/videoContentLoader";
 import ClipList from "./components/ClipList";
+import Player from "./components/Player";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,6 +20,7 @@ export default function App() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [videoData, setVideoData] = useState();
+  const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
 
   useEffect(() => {
     async function getData() {
@@ -34,13 +36,15 @@ export default function App() {
     getData();
   }, [fontsLoaded]);
 
-  function onClipSelected(url) {}
+  function onClipSelected(url) {
+    setCurrentVideoUrl(url);
+  }
 
   return (
     <>
       <StatusBar style='auto' />
       <View style={styles.container}>
-        <View style={styles.textContainer}>
+        <View style={styles.titleContainer}>
           <Text style={styles.title}>
             {videoData ? videoData.video.title : "Loading Title"}
           </Text>
@@ -49,10 +53,13 @@ export default function App() {
           </Text>
         </View>
 
-        <ClipList
-          clips={videoData && videoData.videoClips}
-          onSelect={onClipSelected}
-        />
+        <View style={styles.mainContentContainer}>
+          <ClipList
+            clips={videoData && videoData.videoClips}
+            onSelect={onClipSelected}
+          />
+          <Player videoUrl={currentVideoUrl} />
+        </View>
       </View>
     </>
   );
@@ -62,15 +69,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
   },
-  textContainer: {
+  titleContainer: {
     padding: 8,
     justifyContent: "center",
     alignItems: "flex-start",
     alignSelf: "flex-start",
     backgroundColor: "#000000",
+  },
+  mainContentContainer: {
+    flexDirection: "row",
   },
   title: {
     fontSize: 24,
