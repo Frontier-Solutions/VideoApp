@@ -54,11 +54,16 @@ export default function App() {
         </View>
 
         <View style={styles.mainContentContainer}>
-          <ClipList
-            clips={videoData && videoData.videoClips}
-            onSelect={onClipSelected}
-          />
-          <Player videoUrl={currentVideoUrl} />
+          <View style={styles.listContainer}>
+            <ClipList
+              clips={videoData && videoData.videoClips}
+              onSelect={onClipSelected}
+            />
+          </View>
+
+          <View style={styles.videoContainer}>
+            <Player videoUrl={currentVideoUrl} />
+          </View>
         </View>
       </View>
     </>
@@ -72,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   titleContainer: {
+    width: "100%",
     padding: 8,
     justifyContent: "center",
     alignItems: "flex-start",
@@ -80,7 +86,13 @@ const styles = StyleSheet.create({
   },
   mainContentContainer: {
     flexDirection: "row",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
+  listContainer: {
+    maxHeight: 570,
+  },
+  videoContainer: {},
   title: {
     fontSize: 24,
     fontFamily: "Inter-Bold",

@@ -1,6 +1,6 @@
-import { Video } from "expo-av";
+import { Video, ResizeMode } from "expo-av";
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 function Player({ videoUrl }) {
   const video = React.useRef(null);
@@ -10,15 +10,17 @@ function Player({ videoUrl }) {
   }, [videoUrl]);
 
   return (
-    <View style={styles.playerContainer}>
-      <Video
-        useNativeControls={true}
-        ref={video}
-        style={styles.video}
-        source={{ uri: videoUrl }}
-        resizeMode='stretch'
-      />
-    </View>
+    <Video
+      useNativeControls={true}
+      ref={video}
+      style={styles.video}
+      source={{ uri: videoUrl }}
+      resizeMode={ResizeMode.CONTAIN}
+      videoStyle={{
+        width: 1280,
+        height: 720,
+      }}
+    />
   );
 }
 
@@ -29,5 +31,6 @@ const styles = StyleSheet.create({
     width: 1280,
     height: 720,
     margin: 24,
+    borderRadius: 12,
   },
 });

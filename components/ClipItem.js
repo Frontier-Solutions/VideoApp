@@ -28,9 +28,9 @@ export default ClipItem;
 const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
-    borderRadius: 6,
-    marginVertical: 12,
-    backgroundColor: "#868686",
+    borderRadius: 12,
+    marginBottom: 12,
+    backgroundColor: "#fa1111",
     maxWidth: 500,
   },
   pressed: {

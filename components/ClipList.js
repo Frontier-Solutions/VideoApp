@@ -27,9 +27,9 @@ export default ClipList;
 const styles = StyleSheet.create({
   scrollView: {
     overflow: "hidden",
+    margin: 24,
   },
   list: {
-    margin: 24,
     alignSelf: "flex-start",
   },
   fallbackContainer: {
