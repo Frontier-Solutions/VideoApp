@@ -7,6 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { fetchVideoData } from "./util/videoContentLoader";
 import ClipList from "./components/ClipList";
 import Player from "./components/Player";
+import ErrorOverlay from "./components/UI/ErrorOverlay";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,21 +19,43 @@ export default function App() {
     "Inter-Bold": require("./assets/fonts/Inter-Bold.otf"),
   });
 
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState();
+
   const [videoData, setVideoData] = useState();
   const [currentClipData, setcurrentClipData] = useState(null);
 
   useEffect(() => {
     async function getData() {
-      const data = await fetchVideoData();
-      setVideoData(data);
+      setIsFetching(true);
+
+      try {
+        const data = await fetchVideoData();
+        setVideoData(data);
+      } catch (error) {
+        setError("Could not fetch podcast clips!");
+      }
 
       if (fontsLoaded) {
         await SplashScreen.hideAsync();
+        setIsFetching(false);
       }
     }
 
     getData();
   }, [fontsLoaded]);
+
+  function errorHandler() {
+    setError(null);
+  }
+
+  if (error && !isFetching) {
+    return <ErrorOverlay message={error} onConfirm={errorHandler} />;
+  }
+
+  if (isFetching) {
+    return <Text>Loading...</Text>;
+  }
 
   function onClipSelected(clip) {
     setcurrentClipData(clip);
@@ -88,7 +111,8 @@ const styles = StyleSheet.create({
     marginRight: "auto",
   },
   listContainer: {
-    maxHeight: 570,
+    maxHeight: 520,
+    margin: 24,
   },
   videoContainer: {},
   title: {

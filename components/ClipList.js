@@ -12,23 +12,17 @@ function ClipList({ clips, onSelect }) {
   }
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <FlatList
-        style={styles.list}
-        data={clips}
-        renderItem={({ item }) => <ClipItem clip={item} onSelect={onSelect} />}
-      />
-    </ScrollView>
+    <FlatList
+      style={styles.list}
+      data={clips}
+      renderItem={({ item }) => <ClipItem clip={item} onSelect={onSelect} />}
+    />
   );
 }
 
 export default ClipList;
 
 const styles = StyleSheet.create({
-  scrollView: {
-    overflow: "hidden",
-    margin: 24,
-  },
   list: {
     alignSelf: "flex-start",
   },
