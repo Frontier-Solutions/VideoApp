@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, Text, ScrollView } from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 
 import ClipItem from "./ClipItem";
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import * as Device from "expo-device";
 
 import { fetchVideoData } from "./util/videoContentLoader";
 import ClipList from "./components/ClipList";
@@ -20,6 +21,7 @@ export default function App() {
   });
 
   const [isFetching, setIsFetching] = useState(true);
+  const [flexDirectionValue, setFlexDirectionValue] = useState(null);
   const [error, setError] = useState();
 
   const [videoData, setVideoData] = useState();
@@ -37,8 +39,18 @@ export default function App() {
       }
 
       if (fontsLoaded) {
-        await SplashScreen.hideAsync();
+        const deviceType = await Device.getDeviceTypeAsync();
+        let direction = "";
+
+        if (deviceType == 1) {
+          direction = "column";
+        } else if (deviceType == 3) {
+          direction = "row";
+        }
+        setFlexDirectionValue(direction);
+
         setIsFetching(false);
+        await SplashScreen.hideAsync();
       }
     }
 
@@ -74,7 +86,12 @@ export default function App() {
           </Text>
         </View>
 
-        <View style={styles.mainContentContainer}>
+        <View
+          style={[
+            styles.mainContentContainer,
+            { flexDirection: flexDirectionValue },
+          ]}
+        >
           <View style={styles.listContainer}>
             <ClipList
               clips={videoData && videoData.videoClips}
