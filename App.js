@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as Device from "expo-device";
@@ -86,23 +86,25 @@ export default function App() {
           </Text>
         </View>
 
-        <View
-          style={[
-            styles.mainContentContainer,
-            { flexDirection: flexDirectionValue },
-          ]}
-        >
-          <View style={styles.listContainer}>
-            <ClipList
-              clips={videoData && videoData.videoClips}
-              onSelect={onClipSelected}
-            />
-          </View>
+        <ScrollView>
+          <View
+            style={[
+              styles.mainContentContainer,
+              { flexDirection: flexDirectionValue },
+            ]}
+          >
+            <View style={styles.listContainer}>
+              <ClipList
+                clips={videoData && videoData.videoClips}
+                onSelect={onClipSelected}
+              />
+            </View>
 
-          <View style={styles.videoContainer}>
-            <Player clip={currentClipData} />
+            <View style={styles.videoContainer}>
+              <Player clip={currentClipData} />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </>
   );

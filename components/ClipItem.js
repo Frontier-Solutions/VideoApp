@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   metaContainer: {
-    flex: 7,
     padding: 6,
     justifyContent: "center",
     alignItems: "flex-start",

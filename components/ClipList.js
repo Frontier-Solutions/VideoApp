@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, Text } from "react-native";
+import { FlatList, StyleSheet, View, Text, ScrollView } from "react-native";
 
 import ClipItem from "./ClipItem";
 
@@ -12,11 +12,11 @@ function ClipList({ clips, onSelect }) {
   }
 
   return (
-    <FlatList
-      style={styles.list}
-      data={clips}
-      renderItem={({ item }) => <ClipItem clip={item} onSelect={onSelect} />}
-    />
+    <ScrollView nestedScrollEnabled={true} style={styles.list}>
+      {clips.map((item) => (
+        <ClipItem clip={item} onSelect={onSelect} />
+      ))}
+    </ScrollView>
   );
 }
 
