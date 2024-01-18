@@ -24,8 +24,6 @@ export default function App() {
   const [error, setError] = useState();
 
   const [deviceType, setDeviceType] = useState();
-  const [flexDirection, setFlexDirection] = useState();
-
   const [videoData, setVideoData] = useState();
   const [currentClipData, setcurrentClipData] = useState(null);
 
@@ -45,14 +43,6 @@ export default function App() {
 
       const deviceTypeNum = await Device.getDeviceTypeAsync();
       setDeviceType(deviceTypeNum);
-
-      console.log(deviceTypeNum);
-
-      if (deviceType == 1) {
-        setFlexDirection("column");
-      } else if (deviceType == 3) {
-        setFlexDirection("row");
-      }
 
       if (fontsLoaded) {
         setIsFetching(false);
@@ -102,6 +92,13 @@ export default function App() {
     secondSection = videoContainer;
   }
 
+  let flexDirection = "";
+  if (deviceType == 1) {
+    flexDirection = "column";
+  } else if (deviceType == 3) {
+    flexDirection = "row";
+  }
+
   return (
     <>
       <StatusBar style='auto' />
@@ -115,13 +112,8 @@ export default function App() {
           </Text>
         </View>
 
-        <ScrollView>
-          <View
-            style={[
-              styles.mainContentContainer,
-              { flexDirection: flexDirection },
-            ]}
-          >
+        <ScrollView style={styles.mainContentContainer}>
+          <View style={{ flexDirection: flexDirection }}>
             {firstSection}
             {secondSection}
           </View>
@@ -146,13 +138,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   mainContentContainer: {
-    flexDirection: "row",
     marginLeft: "auto",
     marginRight: "auto",
   },
   listContainer: {
     maxHeight: 520,
     margin: 24,
+  },
+  videoContainer: {
+    marginRight: 24,
   },
   title: {
     fontSize: 24,
