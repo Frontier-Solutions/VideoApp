@@ -21,11 +21,16 @@ export default function App() {
   });
 
   const [isFetching, setIsFetching] = useState(true);
-  const [flexDirectionValue, setFlexDirectionValue] = useState(null);
   const [error, setError] = useState();
+
+  const [deviceType, setDeviceType] = useState();
+  const [flexDirection, setFlexDirection] = useState();
 
   const [videoData, setVideoData] = useState();
   const [currentClipData, setcurrentClipData] = useState(null);
+
+  let firstSection = {};
+  let secondSection = {};
 
   useEffect(() => {
     async function getData() {
@@ -38,17 +43,18 @@ export default function App() {
         setError("Could not fetch podcast clips!");
       }
 
+      const deviceTypeNum = await Device.getDeviceTypeAsync();
+      setDeviceType(deviceTypeNum);
+
+      console.log(deviceTypeNum);
+
+      if (deviceType == 1) {
+        setFlexDirection("column");
+      } else if (deviceType == 3) {
+        setFlexDirection("row");
+      }
+
       if (fontsLoaded) {
-        const deviceType = await Device.getDeviceTypeAsync();
-        let direction = "";
-
-        if (deviceType == 1) {
-          direction = "column";
-        } else if (deviceType == 3) {
-          direction = "row";
-        }
-        setFlexDirectionValue(direction);
-
         setIsFetching(false);
         await SplashScreen.hideAsync();
       }
@@ -73,6 +79,29 @@ export default function App() {
     setcurrentClipData(clip);
   }
 
+  const listContainer = (
+    <View style={styles.listContainer}>
+      <ClipList
+        clips={videoData && videoData.videoClips}
+        onSelect={onClipSelected}
+      />
+    </View>
+  );
+
+  const videoContainer = (
+    <View style={styles.videoContainer}>
+      <Player clip={currentClipData} />
+    </View>
+  );
+
+  if (deviceType == 1) {
+    firstSection = videoContainer;
+    secondSection = listContainer;
+  } else if (deviceType == 3) {
+    firstSection = listContainer;
+    secondSection = videoContainer;
+  }
+
   return (
     <>
       <StatusBar style='auto' />
@@ -90,19 +119,11 @@ export default function App() {
           <View
             style={[
               styles.mainContentContainer,
-              { flexDirection: flexDirectionValue },
+              { flexDirection: flexDirection },
             ]}
           >
-            <View style={styles.listContainer}>
-              <ClipList
-                clips={videoData && videoData.videoClips}
-                onSelect={onClipSelected}
-              />
-            </View>
-
-            <View style={styles.videoContainer}>
-              <Player clip={currentClipData} />
-            </View>
+            {firstSection}
+            {secondSection}
           </View>
         </ScrollView>
       </View>
@@ -133,7 +154,6 @@ const styles = StyleSheet.create({
     maxHeight: 520,
     margin: 24,
   },
-  videoContainer: {},
   title: {
     fontSize: 24,
     fontFamily: "Inter-Bold",
