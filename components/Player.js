@@ -2,7 +2,9 @@ import { Video, ResizeMode } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-function Player({ clip }) {
+import { getPlayerStyle } from "../components/UI/StyleHelper";
+
+function Player({ clip, deviceType }) {
   const video = React.useRef(null);
 
   React.useEffect(() => {
@@ -10,16 +12,20 @@ function Player({ clip }) {
   }, [clip]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ width: getPlayerStyle(deviceType).width }}>
       <Video
         useNativeControls={true}
         ref={video}
-        style={styles.video}
+        style={{
+          ...styles.video,
+          width: getPlayerStyle(deviceType).width,
+          height: getPlayerStyle(deviceType).height,
+        }}
         source={{ uri: clip && clip.videoUrl }}
         resizeMode={ResizeMode.CONTAIN}
         videoStyle={{
-          width: 1280,
-          height: 720,
+          width: getPlayerStyle(deviceType).width,
+          height: getPlayerStyle(deviceType).height,
         }}
       />
       <View style={styles.textContainer}>
@@ -34,12 +40,7 @@ function Player({ clip }) {
 export default Player;
 
 const styles = StyleSheet.create({
-  container: {
-    maxWidth: 1280,
-  },
   video: {
-    width: 1280,
-    height: 720,
     margin: 24,
     borderRadius: 12,
   },

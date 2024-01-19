@@ -12,7 +12,7 @@ function ClipList({ clips, onSelect }) {
   }
 
   return (
-    <ScrollView nestedScrollEnabled={true} style={styles.list}>
+    <ScrollView nestedScrollEnabled={true}>
       {clips.map((item) => (
         <ClipItem key={Math.random()} clip={item} onSelect={onSelect} />
       ))}
@@ -23,9 +23,6 @@ function ClipList({ clips, onSelect }) {
 export default ClipList;
 
 const styles = StyleSheet.create({
-  list: {
-    alignSelf: "flex-start",
-  },
   fallbackContainer: {
     flex: 1,
     justifyContent: "center",

@@ -16,7 +16,7 @@ function ClipItem({ clip, onSelect }) {
       <Ionicons
         style={styles.icon}
         name='play-outline'
-        size={24}
+        size={36}
         color='black'
       />
     </Pressable>
@@ -28,10 +28,11 @@ export default ClipItem;
 const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
+    justifyContent: "space-around",
     borderRadius: 12,
     marginBottom: 12,
     backgroundColor: "#fa1111",
-    maxWidth: 500,
+    width: 365,
   },
   pressed: {
     opacity: 0.8,
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 6,
     justifyContent: "center",
     alignItems: "flex-start",
-    maxWidth: 300,
+    maxWidth: 200,
   },
   title: {
     fontSize: 16,
@@ -59,7 +60,6 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   icon: {
-    flex: 1,
     alignSelf: "center",
   },
 });

@@ -80,23 +80,20 @@ export default function App() {
 
   const videoContainer = (
     <View style={styles.videoContainer}>
-      <Player clip={currentClipData} />
+      <Player clip={currentClipData} deviceType={deviceType} />
     </View>
   );
 
+  let flexDirection = "";
+
   if (deviceType == 1) {
+    flexDirection = "column";
     firstSection = videoContainer;
     secondSection = listContainer;
   } else if (deviceType == 3) {
+    flexDirection = "row";
     firstSection = listContainer;
     secondSection = videoContainer;
-  }
-
-  let flexDirection = "";
-  if (deviceType == 1) {
-    flexDirection = "column";
-  } else if (deviceType == 3) {
-    flexDirection = "row";
   }
 
   return (
