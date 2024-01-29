@@ -1,8 +1,9 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { forwardRef } from "react";
 
 import ClipItem from "./ClipItem";
 
-function ClipList({ clips, onSelect }) {
+const ClipList = forwardRef(({ clips, onSelect }, ref) => {
   if (!clips) {
     return (
       <View style={styles.fallbackContainer}>
@@ -14,11 +15,16 @@ function ClipList({ clips, onSelect }) {
   return (
     <ScrollView nestedScrollEnabled={true}>
       {clips.map((item) => (
-        <ClipItem key={Math.random()} clip={item} onSelect={onSelect} />
+        <ClipItem
+          key={Math.random()}
+          clip={item}
+          onSelect={onSelect}
+          ref={ref}
+        />
       ))}
     </ScrollView>
   );
-}
+});
 
 export default ClipList;
 

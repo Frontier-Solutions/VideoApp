@@ -1,18 +1,19 @@
 import { Video, ResizeMode } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { useEffect, useRef, forwardRef } from "react";
 
 import { getPlayerStyle } from "../components/UI/StyleHelper";
 
-function Player({ clip, deviceType }) {
-  const video = React.useRef(null);
+const Player = forwardRef(({ clip, deviceType }, ref) => {
+  const video = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     clip && video.current.playAsync();
   }, [clip]);
 
   return (
-    <View style={{ width: getPlayerStyle(deviceType).width }}>
+    <View style={{ width: getPlayerStyle(deviceType).width }} ref={ref}>
       <Video
         useNativeControls={true}
         ref={video}
@@ -35,7 +36,7 @@ function Player({ clip, deviceType }) {
       </View>
     </View>
   );
-}
+});
 
 export default Player;
 

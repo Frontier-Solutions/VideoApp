@@ -93,17 +93,22 @@ export default function App() {
   }
 
   const listContainer = (
-    <View style={styles.listContainer} ref={focusComponents[0]}>
+    <View style={styles.listContainer}>
       <ClipList
         clips={videoData && videoData.videoClips}
         onSelect={onClipSelected}
+        ref={focusComponents[0]}
       />
     </View>
   );
 
   const videoContainer = (
-    <View style={styles.videoContainer} ref={focusComponents[1]}>
-      <Player clip={currentClipData} deviceType={deviceType} />
+    <View style={styles.videoContainer}>
+      <Player
+        clip={currentClipData}
+        deviceType={deviceType}
+        ref={focusComponents[1]}
+      />
     </View>
   );
 

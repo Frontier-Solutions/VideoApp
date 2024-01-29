@@ -1,11 +1,13 @@
 import { Pressable, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { forwardRef } from "react";
 
-function ClipItem({ clip, onSelect }) {
+const ClipItem = forwardRef(({ clip, onSelect }, ref) => {
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]}
       onPress={onSelect.bind(this, clip)}
+      ref={ref}
     >
       <View style={styles.metaContainer}>
         <Text style={styles.title}>{clip.title}</Text>
@@ -21,7 +23,7 @@ function ClipItem({ clip, onSelect }) {
       />
     </Pressable>
   );
-}
+});
 
 export default ClipItem;
 
