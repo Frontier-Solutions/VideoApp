@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -30,6 +30,9 @@ export default function App() {
   let firstSection = {};
   let secondSection = {};
 
+  const focusComponents = [useRef(null), useRef(null)];
+  let currentFocusIndex = null;
+
   useEffect(() => {
     async function getData() {
       setIsFetching(true);
@@ -51,6 +54,11 @@ export default function App() {
     }
 
     getData();
+    window.addEventListener("keydown", handleKeyEvent);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyEvent);
+    };
   }, [fontsLoaded]);
 
   function errorHandler() {
@@ -65,12 +73,27 @@ export default function App() {
     return <Text>Loading...</Text>;
   }
 
+  function handleKeyEvent(event) {
+    const { key } = event;
+
+    if (currentFocusIndex == null) {
+      currentFocusIndex = 0;
+    } else if (key === "ArrowRight" && currentFocusIndex == 0) {
+      currentFocusIndex += 1;
+    } else if (key === "ArrowLeft" && currentFocusIndex == 1) {
+      currentFocusIndex -= 1;
+    }
+
+    focusComponents[currentFocusIndex].current.focus();
+    console.log(focusComponents[currentFocusIndex]);
+  }
+
   function onClipSelected(clip) {
     setcurrentClipData(clip);
   }
 
   const listContainer = (
-    <View style={styles.listContainer}>
+    <View style={styles.listContainer} ref={focusComponents[0]}>
       <ClipList
         clips={videoData && videoData.videoClips}
         onSelect={onClipSelected}
@@ -79,7 +102,7 @@ export default function App() {
   );
 
   const videoContainer = (
-    <View style={styles.videoContainer}>
+    <View style={styles.videoContainer} ref={focusComponents[1]}>
       <Player clip={currentClipData} deviceType={deviceType} />
     </View>
   );
