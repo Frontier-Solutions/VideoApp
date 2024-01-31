@@ -23,7 +23,6 @@ function ClipList({ clips, onSelect, focused }) {
   function handleKeyEvent(event) {
     const { key } = event;
 
-    console.log(key);
     if (focused === true) {
       if (key == "ArrowDown" && currentItemIndex < clipsData.length - 1) {
         currentItemIndex += 1;
