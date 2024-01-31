@@ -14,5 +14,6 @@ export class VideoClip {
     this.author = author;
     this.category = category;
     this.date = date;
+    this.focused = false;
   }
 }

@@ -1,13 +1,16 @@
 import { Pressable, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { forwardRef } from "react";
 
-const ClipItem = forwardRef(({ clip, onSelect }, ref) => {
+function ClipItem({ clip, onSelect }) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.item, pressed && styles.pressed]}
+      id='clipItem'
+      style={({ pressed }) => [
+        styles.item,
+        pressed && styles.pressed,
+        clip.focused ? styles.focused : styles.unfocused,
+      ]}
       onPress={onSelect.bind(this, clip)}
-      ref={ref}
     >
       <View style={styles.metaContainer}>
         <Text style={styles.title}>{clip.title}</Text>
@@ -23,7 +26,7 @@ const ClipItem = forwardRef(({ clip, onSelect }, ref) => {
       />
     </Pressable>
   );
-});
+}
 
 export default ClipItem;
 
@@ -33,8 +36,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     borderRadius: 12,
     marginBottom: 12,
-    backgroundColor: "#fa1111",
     width: 365,
+  },
+  focused: {
+    backgroundColor: "#fb7e7e",
+  },
+  unfocused: {
+    backgroundColor: "#fa1111",
   },
   pressed: {
     opacity: 0.8,

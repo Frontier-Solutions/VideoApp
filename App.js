@@ -27,11 +27,11 @@ export default function App() {
   const [videoData, setVideoData] = useState();
   const [currentClipData, setcurrentClipData] = useState(null);
 
+  const [listIsFocused, setListIsFocused] = useState(false);
+  const [videoIsFocused, setVideoIsFocused] = useState(false);
+
   let firstSection = {};
   let secondSection = {};
-
-  const focusComponents = [useRef(null), useRef(null)];
-  let currentFocusIndex = null;
 
   useEffect(() => {
     async function getData() {
@@ -76,16 +76,13 @@ export default function App() {
   function handleKeyEvent(event) {
     const { key } = event;
 
-    if (currentFocusIndex == null) {
-      currentFocusIndex = 0;
-    } else if (key === "ArrowRight" && currentFocusIndex == 0) {
-      currentFocusIndex += 1;
-    } else if (key === "ArrowLeft" && currentFocusIndex == 1) {
-      currentFocusIndex -= 1;
+    if (key === "ArrowRight") {
+      setListIsFocused(false);
+      setVideoIsFocused(true);
+    } else if (key === "ArrowLeft") {
+      setVideoIsFocused(false);
+      setListIsFocused(true);
     }
-
-    focusComponents[currentFocusIndex].current.focus();
-    console.log(focusComponents[currentFocusIndex]);
   }
 
   function onClipSelected(clip) {
@@ -97,7 +94,7 @@ export default function App() {
       <ClipList
         clips={videoData && videoData.videoClips}
         onSelect={onClipSelected}
-        ref={focusComponents[0]}
+        focused={listIsFocused}
       />
     </View>
   );
@@ -107,7 +104,7 @@ export default function App() {
       <Player
         clip={currentClipData}
         deviceType={deviceType}
-        ref={focusComponents[1]}
+        focused={videoIsFocused}
       />
     </View>
   );
