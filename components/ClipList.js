@@ -30,7 +30,7 @@ function ClipList({ clips, onSelect, focused }) {
       } else if (key == "ArrowUp" && currentItemIndex > 0) {
         currentItemIndex -= 1;
       } else if (key == "Enter") {
-        clipsData[currentItemIndex];
+        onSelect(clipsData[currentItemIndex]);
 
         return;
       } else {
