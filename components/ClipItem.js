@@ -10,7 +10,10 @@ function ClipItem({ clip, onSelect }) {
         pressed && styles.pressed,
         clip.focused ? styles.focused : styles.unfocused,
       ]}
-      onPress={onSelect.bind(this, clip)}
+      onPress={() => {
+        clip.focused = true;
+        onSelect.bind(this, clip);
+      }}
     >
       <View style={styles.metaContainer}>
         <Text style={styles.title}>{clip.title}</Text>
@@ -37,6 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 12,
     width: 365,
+    height: 150,
   },
   focused: {
     backgroundColor: "#fb7e7e",

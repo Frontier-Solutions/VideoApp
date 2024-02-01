@@ -1,7 +1,7 @@
 import { Video } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { useEffect, useRef, forwardRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { getPlayerStyle } from "../components/UI/StyleHelper";
 
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
   },
   focused: {
     borderColor: "#fa1111",
-    backgroundColor: "#000000",
     borderWidth: 5,
     borderRadius: 18,
   },

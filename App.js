@@ -54,11 +54,8 @@ export default function App() {
     }
 
     getData();
-    window.addEventListener("keydown", handleKeyEvent);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyEvent);
-    };
+    window.addEventListener("keydown", handleKeyEvent);
   }, [fontsLoaded]);
 
   function errorHandler() {
@@ -95,6 +92,7 @@ export default function App() {
         clips={videoData && videoData.videoClips}
         onSelect={onClipSelected}
         focused={listIsFocused}
+        deviceType={deviceType}
       />
     </View>
   );

@@ -1,11 +1,14 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 
 import ClipItem from "./ClipItem";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function ClipList({ clips, onSelect, focused }) {
+let currentItemIndex = 0;
+
+function ClipList({ clips, onSelect, focused, deviceType }) {
+  const scrollViewRef = useRef(null);
+
   const [clipsData, setClipsData] = useState([]);
-  let currentItemIndex = 0;
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyEvent);
@@ -14,10 +17,6 @@ function ClipList({ clips, onSelect, focused }) {
       clips[currentItemIndex].focused = true;
       setClipsData(clips);
     }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyEvent);
-    };
   }, [focused]);
 
   function handleKeyEvent(event) {
@@ -30,12 +29,17 @@ function ClipList({ clips, onSelect, focused }) {
         currentItemIndex -= 1;
       } else if (key == "Enter") {
         onSelect(clipsData[currentItemIndex]);
-
         return;
       } else {
         return;
       }
 
+      const yScrollValue = currentItemIndex * 162; //item height + bottom margin
+
+      scrollViewRef.current.scrollTo({
+        y: yScrollValue,
+        animated: true,
+      });
       setClipsData((oldData) => {
         for (let clip of oldData) {
           clip.focused = false;
@@ -57,9 +61,10 @@ function ClipList({ clips, onSelect, focused }) {
 
   return (
     <ScrollView
-      style={focused ? styles.focused : {}}
+      style={focused ? styles.focused : styles.unFocused}
       nestedScrollEnabled={true}
       focused={focused}
+      ref={scrollViewRef}
     >
       {clipsData.map((item) => (
         <ClipItem key={Math.random()} clip={item} onSelect={onSelect} />
@@ -78,7 +83,6 @@ const styles = StyleSheet.create({
   },
   focused: {
     borderColor: "#fa1111",
-    backgroundColor: "#000000",
     borderWidth: 5,
     borderRadius: 18,
   },
