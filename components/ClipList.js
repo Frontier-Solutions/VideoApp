@@ -16,7 +16,6 @@ function ClipList({ clips, onSelect, focused }) {
     if (clips) {
       setClipsData(() => {
         if (focused == true) {
-          console.log("yes ?");
           clips[currentItemIndex].focused = true;
         }
 
