@@ -87,7 +87,10 @@ function ClipList({ clips, onSelect, focused }) {
 
   return (
     <ScrollView
-      style={focused ? styles.focused : styles.unFocused}
+      style={[
+        styles.listContainer,
+        focused ? styles.focused : styles.unFocused,
+      ]}
       nestedScrollEnabled={true}
       focused={focused}
       ref={scrollViewRef}
@@ -107,6 +110,10 @@ function ClipList({ clips, onSelect, focused }) {
 export default ClipList;
 
 const styles = StyleSheet.create({
+  listContainer: {
+    maxHeight: 638,
+    margin: 24,
+  },
   unFocused: {
     borderColor: "#ffffff",
     borderWidth: 5,

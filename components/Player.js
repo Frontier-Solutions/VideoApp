@@ -18,7 +18,13 @@ function Player({ clip, deviceType, focused }) {
   }, [clip]);
 
   return (
-    <View id='videoView' style={focused ? styles.focused : styles.unfocused}>
+    <View
+      id='videoView'
+      style={[
+        styles.videoContainer,
+        focused ? styles.focused : styles.unfocused,
+      ]}
+    >
       <Video
         useNativeControls={true}
         ref={video}
@@ -38,6 +44,9 @@ function Player({ clip, deviceType, focused }) {
 export default Player;
 
 const styles = StyleSheet.create({
+  videoContainer: {
+    marginRight: 24,
+  },
   unfocused: {
     borderColor: "#ffffff",
     borderWidth: 5,

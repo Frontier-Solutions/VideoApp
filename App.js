@@ -91,24 +91,20 @@ export default function App() {
   }
 
   const listContainer = (
-    <View style={styles.listContainer}>
-      <ClipList
-        clips={videoData && videoData.videoClips}
-        onSelect={onClipSelected}
-        focused={listIsFocused}
-        deviceType={deviceType}
-      />
-    </View>
+    <ClipList
+      clips={videoData && videoData.videoClips}
+      onSelect={onClipSelected}
+      focused={listIsFocused}
+      deviceType={deviceType}
+    />
   );
 
   const videoContainer = (
-    <View style={styles.videoContainer}>
-      <Player
-        clip={currentClipData}
-        deviceType={deviceType}
-        focused={videoIsFocused}
-      />
-    </View>
+    <Player
+      clip={currentClipData}
+      deviceType={deviceType}
+      focused={videoIsFocused}
+    />
   );
 
   let flexDirection = "";
@@ -164,13 +160,6 @@ const styles = StyleSheet.create({
   mainContentContainer: {
     marginLeft: "auto",
     marginRight: "auto",
-  },
-  listContainer: {
-    maxHeight: 520,
-    margin: 24,
-  },
-  videoContainer: {
-    marginRight: 24,
   },
   title: {
     fontSize: 24,
