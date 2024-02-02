@@ -30,6 +30,7 @@ function ClipList({ clips, onSelect, focused }) {
 
   function onClickTap(clipKey) {
     currentItemIndex = clipKey;
+    scrollToItem();
     setClipsData((clips) => {
       for (let clip of clips) {
         clip.focused = false;
@@ -55,12 +56,7 @@ function ClipList({ clips, onSelect, focused }) {
         return;
       }
 
-      const yScrollValue = currentItemIndex * 162; //item height + bottom margin
-
-      scrollViewRef.current.scrollTo({
-        y: yScrollValue,
-        animated: true,
-      });
+      scrollToItem();
       setClipsData((clips) => {
         for (let clip of clips) {
           clip.focused = false;
@@ -70,6 +66,15 @@ function ClipList({ clips, onSelect, focused }) {
         return [...clips];
       });
     }
+  }
+
+  function scrollToItem() {
+    const yScrollValue = currentItemIndex * 162; //item height + bottom margin
+
+    scrollViewRef.current.scrollTo({
+      y: yScrollValue,
+      animated: true,
+    });
   }
 
   if (!clipsData) {
