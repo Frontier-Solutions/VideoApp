@@ -7,7 +7,8 @@ export class Video {
 }
 
 export class VideoClip {
-  constructor(title, description, videoUrl, author, category, date) {
+  constructor(key, title, description, videoUrl, author, category, date) {
+    this.key = key;
     this.title = title;
     this.description = description;
     this.videoUrl = videoUrl;

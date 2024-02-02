@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -56,6 +56,10 @@ export default function App() {
     getData();
 
     window.addEventListener("keydown", handleKeyEvent);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyEvent);
+    };
   }, [fontsLoaded]);
 
   function errorHandler() {

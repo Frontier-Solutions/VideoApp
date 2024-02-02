@@ -23,9 +23,11 @@ export async function fetchVideoData() {
 
   const items = jObj.item;
 
+  let key = 0;
   for (const item of items) {
     videoData.videoClips.push(
       new VideoClip(
+        (item.key = key),
         item.title,
         item.description,
         item.link,
@@ -34,6 +36,8 @@ export async function fetchVideoData() {
         item.pubDate
       )
     );
+
+    key++;
   }
 
   return videoData;

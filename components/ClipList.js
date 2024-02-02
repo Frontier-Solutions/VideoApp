@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 let currentItemIndex = 0;
 
-function ClipList({ clips, onSelect, focused, deviceType }) {
+function ClipList({ clips, onSelect, focused }) {
   const scrollViewRef = useRef(null);
 
   const [clipsData, setClipsData] = useState([]);
@@ -14,10 +14,32 @@ function ClipList({ clips, onSelect, focused, deviceType }) {
     window.addEventListener("keydown", handleKeyEvent);
 
     if (clips) {
-      clips[currentItemIndex].focused = true;
-      setClipsData(clips);
+      setClipsData(() => {
+        if (focused == true) {
+          console.log("yes ?");
+          clips[currentItemIndex].focused = true;
+        }
+
+        return [...clips];
+      });
     }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyEvent);
+    };
   }, [focused]);
+
+  function onClickTap(clipKey) {
+    currentItemIndex = clipKey;
+    setClipsData((clips) => {
+      for (let clip of clips) {
+        clip.focused = false;
+      }
+
+      clips[clipKey].focused = true;
+      return [...clips];
+    });
+  }
 
   function handleKeyEvent(event) {
     const { key } = event;
@@ -40,13 +62,13 @@ function ClipList({ clips, onSelect, focused, deviceType }) {
         y: yScrollValue,
         animated: true,
       });
-      setClipsData((oldData) => {
-        for (let clip of oldData) {
+      setClipsData((clips) => {
+        for (let clip of clips) {
           clip.focused = false;
         }
 
-        oldData[currentItemIndex].focused = true;
-        return [...oldData];
+        clips[currentItemIndex].focused = true;
+        return [...clips];
       });
     }
   }
@@ -67,7 +89,12 @@ function ClipList({ clips, onSelect, focused, deviceType }) {
       ref={scrollViewRef}
     >
       {clipsData.map((item) => (
-        <ClipItem key={Math.random()} clip={item} onSelect={onSelect} />
+        <ClipItem
+          key={item.key}
+          clip={item}
+          onSelect={onSelect}
+          onClickTap={onClickTap}
+        />
       ))}
     </ScrollView>
   );
