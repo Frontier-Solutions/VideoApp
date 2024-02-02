@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 function ClipItem({ clip, onSelect, onClickTap }) {
-  useEffect(() => {}, [clip]);
-
   return (
     <Pressable
       id='clipItem'
