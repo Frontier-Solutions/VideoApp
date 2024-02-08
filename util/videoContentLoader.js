@@ -1,23 +1,28 @@
+import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 
 import { Video, VideoClip } from "../models/videoModels";
 
 export async function fetchVideoData() {
   const url = "http://rss.cnn.com/services/podcasting/studentnews/rss.xml";
-  const response = await fetch(url);
 
-  if (!response.ok) {
+  try {
+    const response = await axios.get(url);
+    const videoData = parseClips(response.data);
+    return videoData;
+  } catch (error) {
     throw new Error("Failed to fetch video data!");
   }
+}
 
+async function parseClips(response) {
   const videoData = {
     video: {},
     videoClips: [],
   };
 
-  const responseText = await response.text();
   const parser = new XMLParser();
-  const jObj = parser.parse(responseText).rss.channel;
+  const jObj = parser.parse(response).rss.channel;
 
   videoData.video = new Video(jObj.title, jObj.description, jObj.copyright);
 

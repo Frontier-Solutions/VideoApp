@@ -1,7 +1,8 @@
-import { Video } from "expo-av";
+import { AVPlaybackStatus, Video } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useEffect, useRef } from "react";
+import Slider from "@react-native-community/slider";
 
 import { getPlayerStyle } from "../components/UI/StyleHelper";
 
@@ -15,7 +16,12 @@ function Player({ clip, deviceType, focused }) {
 
   useEffect(() => {
     clip && video.current.playAsync();
+    video.current.setProgressUpdateIntervalAsync(1000);
   }, [clip]);
+
+  function updatePlaybackCallback(status) {
+    console.log(status);
+  }
 
   return (
     <View
@@ -26,11 +32,12 @@ function Player({ clip, deviceType, focused }) {
       ]}
     >
       <Video
-        useNativeControls={true}
+        useNativeControls={false}
         ref={video}
         style={[styles.video, playerSize]}
         source={{ uri: clip && clip.videoUrl }}
         videoStyle={playerSize}
+        onPlaybackStatusUpdate={updatePlaybackCallback}
       />
       <View style={styles.textContainer}>
         <Text style={styles.text}>
