@@ -1,4 +1,4 @@
-import { AVPlaybackStatus, Video } from "expo-av";
+import { Video } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useEffect, useRef } from "react";
@@ -15,12 +15,17 @@ function Player({ clip, deviceType, focused }) {
   };
 
   useEffect(() => {
-    clip && video.current.playAsync();
-    video.current.setProgressUpdateIntervalAsync(1000);
+    if (clip) {
+      video.current.playAsync();
+    }
   }, [clip]);
 
   function updatePlaybackCallback(status) {
     console.log(status);
+    if (status.isLoaded) {
+      let duration = status.durationMillis / 1000;
+      console.log(duration);
+    }
   }
 
   return (
