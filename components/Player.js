@@ -1,12 +1,15 @@
 import { Video } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { getPlayerStyle } from "../components/UI/StyleHelper";
+import ProgressBar from "./UI/player/ProgressBar";
 
 function Player({ clip, deviceType, focused }) {
   const video = useRef(null);
+  const [duration, setDuration] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const playerSize = {
     width: getPlayerStyle(deviceType).width,
@@ -20,10 +23,9 @@ function Player({ clip, deviceType, focused }) {
   }, [clip]);
 
   function updatePlaybackCallback(status) {
-    console.log(status);
     if (status.isLoaded) {
-      let duration = status.durationMillis / 1000;
-      console.log(duration);
+      setDuration(status.durationMillis);
+      setProgress(status.positionMillis);
     }
   }
 
@@ -43,6 +45,7 @@ function Player({ clip, deviceType, focused }) {
         videoStyle={playerSize}
         onPlaybackStatusUpdate={updatePlaybackCallback}
       />
+      <ProgressBar durationMillis={duration} progressMillis={progress} />
       <View style={styles.textContainer}>
         <Text style={styles.text}>
           {clip ? clip.description : "Pick a clip!"}
