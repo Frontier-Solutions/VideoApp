@@ -2,7 +2,6 @@ import { Video } from "expo-av";
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useEffect, useRef } from "react";
-import Slider from "@react-native-community/slider";
 
 import { getPlayerStyle } from "../components/UI/StyleHelper";
 
