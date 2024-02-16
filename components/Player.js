@@ -29,6 +29,16 @@ function Player({ clip, deviceType, focused }) {
     }
   }
 
+  async function setVideoPosition(position) {
+    if (position > 0) {
+      try {
+        await video.current.playFromPositionAsync(position);
+      } catch (error) {
+        console.error("Error playing from position", error);
+      }
+    }
+  }
+
   return (
     <View
       id='videoView'
@@ -45,7 +55,11 @@ function Player({ clip, deviceType, focused }) {
         videoStyle={playerSize}
         onPlaybackStatusUpdate={updatePlaybackCallback}
       />
-      <ProgressBar durationMillis={duration} progressMillis={progress} />
+      <ProgressBar
+        durationMillis={duration}
+        progressMillis={progress}
+        onPositionChanged={setVideoPosition}
+      />
       <View style={styles.textContainer}>
         <Text style={styles.text}>
           {clip ? clip.description : "Pick a clip!"}

@@ -2,24 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View, PanResponder } from "react-native";
 
 function ProgressBar({ durationMillis, progressMillis, onPositionChanged }) {
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) => {
-        // console.log(gestureState.x0 - computedXPos);
-        console.log(computedXPos);
-      },
-      onPanResponderRelease: (evt, gestureState) => {
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
-      },
-    })
-  ).current;
-
   const [progress, setProgress] = useState(0);
   const [computedWidth, setComputedWidth] = useState(0);
   const [computedXPos, setComputedXPos] = useState(0);
+  const [clickPosition, setClickPosition] = useState();
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: (evt, gestureState) => {
+        setClickPosition(gestureState.x0);
+      },
+    })
+  ).current;
 
   const durationSeconds = durationMillis / 1000;
 
@@ -33,22 +28,24 @@ function ProgressBar({ durationMillis, progressMillis, onPositionChanged }) {
     }
   }, [progressMillis]);
 
+  useEffect(() => {
+    const barPosition = clickPosition - computedXPos;
+    const percent = barPosition / computedWidth;
+    const videoPosition = percent * durationMillis;
+
+    onPositionChanged(videoPosition);
+  }, [clickPosition]);
+
   function getWidth(event) {
     const { width, left } = event.nativeEvent.layout;
-
-    console.log(left);
 
     setComputedWidth(width);
     setComputedXPos(left);
   }
 
   return (
-    <View
-      style={styles.container}
-      onLayout={getWidth}
-      {...panResponder.panHandlers}
-    >
-      <View style={styles.backgroundBar}>
+    <View style={styles.container} {...panResponder.panHandlers}>
+      <View style={styles.backgroundBar} onLayout={getWidth}>
         <View style={[styles.progressBar, { width: progress }]}></View>
       </View>
       <View style={styles.pointer}></View>
