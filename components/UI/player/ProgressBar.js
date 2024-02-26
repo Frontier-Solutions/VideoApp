@@ -48,7 +48,10 @@ function ProgressBar({ durationMillis, progressMillis, onPositionChanged }) {
       <View style={styles.backgroundBar} onLayout={getWidth}>
         <View style={[styles.progressBar, { width: progress }]}></View>
       </View>
-      <View style={styles.pointer}></View>
+      <View
+        style={[styles.pointer, { left: progress }]}
+        {...panResponder.panHandlers}
+      />
     </View>
   );
 }
@@ -65,10 +68,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#2d0000",
     borderRadius: 6,
     overflow: "hidden",
+    zIndex: 1,
   },
   progressBar: {
     backgroundColor: "#c20000",
     height: 10,
   },
-  pointer: {},
+  pointer: {
+    height: 24,
+    width: 24,
+    backgroundColor: "#ffffff",
+    borderColor: "#000000",
+    borderWidth: 2,
+    borderRadius: 12,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+  },
 });
